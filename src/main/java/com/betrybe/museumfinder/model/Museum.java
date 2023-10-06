@@ -1,8 +1,8 @@
 package com.betrybe.museumfinder.model;
 
 /**
- * Representa um museu com suas informações básicas, incluindo nome, descrição,
- * endereço, tipo de coleção, assunto, URL, coordenadas geográficas e ID legado.
+ * Representa um museu com suas informações básicas, incluindo nome, descrição, endereço, tipo de
+ * coleção, assunto, URL, coordenadas geográficas e ID legado.
  */
 public class Museum {
 
