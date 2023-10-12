@@ -8,6 +8,7 @@ import com.betrybe.museumfinder.service.MuseumServiceInterface;
 import com.betrybe.museumfinder.util.ModelDtoConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,10 +38,9 @@ public class MuseumController {
    * @return representa o museu criado convertido a partir da entidade {@code Museum}.
    */
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public MuseumDto createMuseum(@RequestBody MuseumCreationDto museumCreationDto) {
+  public ResponseEntity<MuseumDto> createMuseum(@RequestBody MuseumCreationDto museumCreationDto) {
     Museum museum = museumService.createMuseum(ModelDtoConverter.dtoToModel(museumCreationDto));
-    return ModelDtoConverter.modelToDto(museum);
+    return ResponseEntity.status(201).body(ModelDtoConverter.modelToDto(museum));
   }
 
   /**
@@ -56,8 +56,7 @@ public class MuseumController {
    *                               não puderem ser convertidas em números válidos.
    */
   @GetMapping("/closest")
-  @ResponseStatus(HttpStatus.OK)
-  public MuseumDto getClosestMuseum(@RequestParam(name = "lng") String lat,
+  public ResponseEntity<MuseumDto> getClosestMuseum(@RequestParam(name = "lng") String lat,
       @RequestParam(name = "lng") String lng,
       @RequestParam(name = "max_dist_km") String maxDistKm) {
     double latitude = Double.parseDouble(lat);
@@ -65,6 +64,6 @@ public class MuseumController {
     double maxDist = Double.parseDouble(maxDistKm);
     Coordinate cordinate = new Coordinate(latitude, longitude);
     Museum museum = museumService.getClosestMuseum(cordinate, maxDist);
-    return ModelDtoConverter.modelToDto(museum);
+    return ResponseEntity.status(200).body(ModelDtoConverter.modelToDto(museum));
   }
 }
